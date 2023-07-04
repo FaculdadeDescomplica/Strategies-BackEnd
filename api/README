@@ -1,0 +1,162 @@
+# Aulas 3
+
+## 3.1 - Definindo as classes
+- UploadFileResponse
+- FileStorageException
+- MyFileNotFoundException
+
+## 3.2 - Configurando o ambiente
+- application.properties
+- FileStorageProperties
+- ApiApplication
+
+## 3.3 - Criando o Controller e o Service
+- FileStorageService
+- FileController
+- Modificar o EstudanteController
+
+# Aula 4
+
+## 4.1 - Configurando Sping Data JPA
+- Breve intro
+- Adicionar spring jpa e h2
+- Config application.properties
+
+## 4.2 - Interface JPARepository
+- EstudanteRepository
+- Estudante (Entity, Id, GeneratedValue)
+
+## 4.3 - Métodos do Spring Data JPA
+- atualizar EstudanteService
+- Criar EP cadastrar vários estudantes
+
+## 4.4 - Paginação
+- EstudanteController (atualizar buscar estudantes)
+- PaginacaoRequest (criar novo package)
+- atualizar EstudanteService
+- Testar
+
+# Aula 5
+
+## 5.1 - Introdução ao Spring JPA
+- Instalar MySQL
+- Instalar DBeaver
+- Configurar MySQL (add dependencia e altera properties)
+- Criar classe Endereço
+
+## 5.2 - Relacionamento OneToOne
+- Criar relacionamento entre Estudante e Endereco
+- Cadastrar e atualizar Estudante 
+    cascade = CascadeType.ALL
+    vs
+    cascade = {CascadeType.PERSIST, CascadeType.REMOVE, CascadeType.MERGE}
+- Buscar estudante por id (resolver problema de loop com @JsonIgnore)
+
+## 5.3 - Relacionamento OneToMany e ManyToOne
+- Criar entity Livro
+- Add Livro na entity Estudante
+- Tentar salvar novo Estudante - vai dar erro
+
+- Criar LivroRepository
+- Modificar cadastrarEstudante em EstudanteService
+- Buscar estudante por ID - vai dar erro
+    Trocar @Data por @Getter e @Setter
+
+- Tentar Atualizar estudante sem livro - vai dar erro
+    Resolver usando -> private Set<Livro> livros = new HashSet<>();
+- Tentar Atualizar estudante com livro
+    Resolver atualizando atualizarEstudante em EstudanteService
+
+## 5.4 - Relacionamento ManyToMany
+- AvaliacaoCurso
+- AvaliacaoCursoKey
+- AvaliacaoCurso
+- Estudante
+- Curso
+- AvaliacaoRepository
+- AvaliacaoService
+- AvaliacaoCursoController
+- Testar \o/
+
+- mostrar problema de buscar Estudante por ID
+- EstudanteResponse
+- Atualizar EstudanteService.buscarEstudadePorId
+
+- Exercício: arrumar método: buscarEstudades
+
+# Aula 6
+## 6.1 - Lazy vs Eager e Cascade
+- Add spring.jpa.open-in-view = false e fetch = FetchType.LAZY (Estudante.livros)
+- mostrar funcionamento do LAZY
+- mudar para EAGER - funcionou \o/
+- voltar para LAZY
+- Usar @Transactional e Hibernate.initialize(estudanteOpt.get().getLivros());
+- Voltar para EAGER
+
+- Testar cascade do Estudante.endereco
+
+## 6.2 - Native Query vs JPQL
+- Começar com Curso findByNome
+- Mostrar 2 tipos de query JPA
+- Mostrar query nativa
+
+- Mostrar problema da lista de Livros que muda a ordem
+- Modificar estudante findAll para testar a busca ordenando o nome
+
+## 6.3 - Agendando uma tarefa com @Scheduled
+- Criar método que irá repetir de tempos em tempos no package scheduled
+- Testar usando fixedDelay
+- Explicar o cron
+- Usar variável de ambiente
+
+## 6.4 - Métodos assíncronos com @Async
+- Mostrar como java funciona de forma sincrona em AvaliacaoService.avaliar
+- Ativar Async
+- Criar servico async
+- Criar controller com um EP para testar
+
+## 6.5 - WebSocket
+- Explicar a diferença entre http e websocket
+- Add dependencia
+- Criar Classe que representa a msg NotificacaoResponse
+- Criar config e Service
+- Enviar msg do metodo Async
+- Configurar o Postman e testar
+
+# Aula 7
+## 7.1 - Conceitos de Segurança com Spring
+## 7.2 - Spring Security
+## 7.3 - Autenticação 0Auth
+- Falar como funciona
+- Criar um conta
+- Criar uma API
+- Criar endPoint token jwt
+## 7.4 - Autenticação JWT
+- SecurityConfig
+- SecurityConfig.filterChain
+- AudienceValidator
+- SecurityConfig.jwtDecoder & SecurityConfig.filterChain
+- Testar Upload e Download de arquivos
+
+# 8 - Documentação de uma API com o Swagger
+## 8.1 - Introdução ao Framework Swagger
+## 8.2 - Instalando e Configurando o Swagger
+- Add dependencias
+    springfox-swagger2 e springfox-boot-starter
+- SpringFoxConfig
+- mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+- Mostrar resultado: http://localhost:8080/v2/api-docs
+- Add dependencia
+    springfox-swagger-ui
+- Mostrar resultado: http://localhost:8080/swagger-ui/
+- Mostrar como remover o controller de erro: 3 formas
+- Testar api com swagger com estudantes
+## 8.3 - Documentando uma API Rest
+- Mostrar que upload de arquivos não está funcionando no swagger
+- Arrumar FileController, mudando @RequestParam para @RequestPart
+- Documentar EstudanteController
+
+## 8.4 - Saiba mais: sugestões de leitura e vídeos
